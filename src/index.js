@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const database = require('./database');
+const corse = require('cors');
 
 
 //config fetch
@@ -11,6 +12,9 @@ console.log("puerto:::"+app.get("port"));
 
 //midleware
 app.use(morgan("dev"));
+app.use(corse({
+     origin: "http://localhost:5173",
+}))
 
 
 //router
