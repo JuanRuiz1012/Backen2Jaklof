@@ -127,6 +127,20 @@ app.post("/send-mail", async (req, res) => {
     });
   }
 });
+app.get("/sales", async (req, res) => {
+    try {
+      const connection = await database.getConnection();
+      // Supón que tienes una tabla de ventas o una consulta que te da las ventas por producto
+      const result = await connection.query(
+        'SELECT producto.title AS product_name, SUM(venta.cantidad) AS total_sales FROM venta JOIN producto ON venta.producto_id = producto.id GROUP BY producto.title'
+      );
+      console.log("Ventas obtenidas:", result);
+      res.json(result);
+    } catch (error) {
+      console.error("Error al obtener ventas:", error);
+      res.status(500).json({ error: "Error al obtener ventas" });
+    }
+  });
 
 // Inicio del servidor
 app.listen(app.get("port"), () => {
